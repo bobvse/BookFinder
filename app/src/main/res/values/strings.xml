@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BooksFinder</string>
+    <string name="ClientID">69580835566-nmf4q1u5oav1qt385d1pni5hql5g45p5.apps.googleusercontent.com</string>
+
+    <string name="WebClientID">69580835566-nbalk2s3ngvisariado63tgtejpslegp.apps.googleusercontent.com</string>
+    <string name="WebClientSecreet">55-ABhAp5XSxcyWM65y98aZZ</string>
+
+
 </resources>
