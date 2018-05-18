@@ -1,8 +1,11 @@
 package com.bobrov.booksfinder;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -12,9 +15,10 @@ import com.bobrov.booksfinder.responses.BookResponse;
 
 import java.util.List;
 
-public class SearchActivity extends MvpAppCompatActivity implements SearchView {
+public class SearchActivity extends MvpAppCompatActivity implements SearchView, AdapterView.OnItemClickListener {
+    public static final String EXTRA_BOOK_KEY = "bookKey";
 
-    BooksListAdapter booksListAdapter;
+    private BooksListAdapter booksListAdapter;
     private RelativeLayout progress;
 
     @InjectPresenter
@@ -31,7 +35,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
         ListView booksListView = findViewById(R.id.books_list_listView);
         booksListAdapter = new BooksListAdapter(this);
         booksListView.setAdapter(booksListAdapter);
-        // booksListView.setOnItemClickListener(this);
+        booksListView.setOnItemClickListener(this);
 
 
     }
@@ -83,4 +87,11 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView {
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, BookDetailActivity.class);
+        intent.putExtra(EXTRA_BOOK_KEY, (BookResponse) booksListAdapter.getItem(position));
+
+        startActivity(intent);
+    }
 }
