@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bobrov.booksfinder.responses.BookResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,9 +45,19 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //   holder.avator.setImageDrawable(mPlaceAvators[position % mPlaceAvators.length]);
         holder.title.setText(booksList.get(position).getVolumeInfo().getTitle());
         holder.description.setText(booksList.get(position).getVolumeInfo().getDescription());
+
+        if (booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail() != null) {
+        Picasso.get()
+                .load(booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail())
+                .resize(80, 80)
+                .centerCrop()
+                .into(holder.avator);
+
+        } else {
+            holder.avator.setImageResource(R.drawable.common_google_signin_btn_text_dark);
+        }
     }
 
     @Override
