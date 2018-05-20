@@ -3,10 +3,10 @@ package com.bobrov.booksfinder;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -15,11 +15,15 @@ import com.bobrov.booksfinder.responses.BookResponse;
 
 import java.util.List;
 
-public class SearchActivity extends MvpAppCompatActivity implements SearchView, AdapterView.OnItemClickListener {
+public class SearchActivity extends MvpAppCompatActivity implements SearchView, CustomItemClickListener {
     public static final String EXTRA_BOOK_KEY = "bookKey";
 
-    private BooksListAdapter booksListAdapter;
+
     private RelativeLayout progress;
+
+    private RecyclerView recyclerView;
+    private RecycleAdapter booksListAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @InjectPresenter
     SearchPresenter searchPresenter;
@@ -32,12 +36,11 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
         progress = findViewById(R.id.books_list_relative_progress);
         progress.setVisibility(RelativeLayout.GONE);
 
-        ListView booksListView = findViewById(R.id.books_list_listView);
-        booksListAdapter = new BooksListAdapter(this);
-        booksListView.setAdapter(booksListAdapter);
-        booksListView.setOnItemClickListener(this);
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
 
-
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
     }
 
     @Override
@@ -78,7 +81,8 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
 
     @Override
     public void showBooks(List<BookResponse> bookResponses) {
-        booksListAdapter.setData(bookResponses);
+        booksListAdapter = new RecycleAdapter(this, bookResponses, this);
+        recyclerView.setAdapter(booksListAdapter);
     }
 
 
@@ -88,10 +92,11 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(View v, int position) {
         Intent intent = new Intent(this, BookDetailActivity.class);
         intent.putExtra(EXTRA_BOOK_KEY, (BookResponse) booksListAdapter.getItem(position));
 
         startActivity(intent);
     }
+
 }
