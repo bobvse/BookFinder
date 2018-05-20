@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bobrov.booksfinder.responses.BookResponse;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
@@ -46,17 +47,17 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(booksList.get(position).getVolumeInfo().getTitle());
-        holder.description.setText(booksList.get(position).getVolumeInfo().getDescription());
+        holder.author.setText(Arrays.toString(booksList.get(position).getVolumeInfo().getAuthors()));
 
         if (booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail() != null) {
         Picasso.get()
                 .load(booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail())
                 .resize(80, 80)
                 .centerCrop()
-                .into(holder.avator);
+                .into(holder.picture);
 
         } else {
-            holder.avator.setImageResource(R.drawable.common_google_signin_btn_text_dark);
+            holder.picture.setImageResource(R.drawable.common_google_signin_btn_text_dark);
         }
     }
 
@@ -71,16 +72,16 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView avator;
+        public ImageView picture;
         public TextView title;
-        public TextView description;
+        public TextView author;
 
 
         ViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.list_title);
-            avator = v.findViewById(R.id.list_avatar);
-            description = v.findViewById(R.id.list_desc);
+            picture = v.findViewById(R.id.list_avatar);
+            author = v.findViewById(R.id.list_desc);
         }
     }
 }

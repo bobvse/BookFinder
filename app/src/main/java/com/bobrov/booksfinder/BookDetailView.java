@@ -8,7 +8,7 @@ public interface BookDetailView extends MvpView {
 
     void hideProgress();
 
-    void showData(String title, String desc);
+    void showData(String author, String title, String desc,String URL);
 
     void showError();
 }
