@@ -31,6 +31,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void clearData(){
+        booksList.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);

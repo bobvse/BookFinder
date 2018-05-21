@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -83,19 +84,25 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
     public void showBooks(List<BookResponse> bookResponses) {
         booksListAdapter = new RecycleAdapter(this, bookResponses, this);
         recyclerView.setAdapter(booksListAdapter);
+
     }
 
 
     @Override
-    public void showError() {
-
+    public void showError(String error) {
+        Toast.makeText(this,error,Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void clearData() {
+        booksListAdapter.clearData();
+    }
+
 
     @Override
     public void onItemClick(View v, int position) {
         Intent intent = new Intent(this, BookDetailActivity.class);
         intent.putExtra(EXTRA_BOOK_KEY, (BookResponse) booksListAdapter.getItem(position));
-
         startActivity(intent);
     }
 
