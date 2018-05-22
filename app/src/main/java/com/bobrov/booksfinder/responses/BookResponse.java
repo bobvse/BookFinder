@@ -5,8 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class BookResponse implements Serializable {
+    @SerializedName("kind")
     private String kind;
+    @SerializedName("id")
     private String id;
+    @SerializedName("etag")
     private String etag;
     @SerializedName("volumeInfo")
     private VolumeInfo volumeInfo;
@@ -29,9 +32,13 @@ public class BookResponse implements Serializable {
     }
 
     public static class VolumeInfo implements Serializable {
+        @SerializedName("title")
         private String title;
+        @SerializedName("authors")
         private String[] authors;
+        @SerializedName("publisher")
         private String publisher;
+        @SerializedName("description")
         private String description;
         @SerializedName("imageLinks")
         private ImageLinks imageLinks;

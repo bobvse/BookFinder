@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -18,18 +17,14 @@ import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.LayoutManager;
 
-public class SearchActivity extends MvpAppCompatActivity implements SearchView, CustomItemClickListener{
+public class SearchActivity extends MvpAppCompatActivity implements SearchView, CustomItemClickListener {
     public static final String EXTRA_BOOK_KEY = "bookKey";
-
 
     private RelativeLayout progress;
 
     private RecyclerView recyclerView;
-    private RecycleAdapter booksListAdapter;
+    private BooksListAdapter booksListAdapter;
     private LayoutManager mLayoutManager;
-    private EndlessRecyclerViewScrollListener scrollListener;
-
-
 
     @InjectPresenter
     SearchPresenter searchPresenter;
@@ -54,28 +49,27 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
                 searchPresenter.loadBooksPagination(page);
             }
         });
-
-
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.serach_menu, menu);
         final android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setQueryHint("Search Books");
 
+
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchPresenter.loadBooks(query);
-                return false;
+                if (query.length() < 3) {
+                    return false;
+                } else {
+                    query.trim();
+                    searchPresenter.loadBooks(query);
+                    return false;
+                }
             }
 
             @Override
@@ -101,7 +95,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
 
     @Override
     public void showBooks(List<BookResponse> bookResponses) {
-        booksListAdapter = new RecycleAdapter(this, bookResponses, this);
+        booksListAdapter = new BooksListAdapter(this, bookResponses, this);
         recyclerView.setAdapter(booksListAdapter);
 
     }
@@ -109,7 +103,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
 
     @Override
     public void showError(String error) {
-        Toast.makeText(this,error,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -119,7 +113,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
 
     @Override
     public void loadPageBooks(List<BookResponse> bookResponses) {
-       booksListAdapter.addData(bookResponses);
+        booksListAdapter.addData(bookResponses);
     }
 
 

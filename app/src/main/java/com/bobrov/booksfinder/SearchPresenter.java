@@ -15,7 +15,8 @@ import retrofit2.Response;
 @InjectViewState
 public class SearchPresenter extends MvpPresenter<SearchView> {
     private final static String API_KEY = "AIzaSyDYgqEsjNkKtFJtixnuJ7t_aWXEVb83VmI";
-    String query;
+
+    private String query;
 
     public SearchPresenter() {
 
@@ -61,10 +62,8 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
                 .build();
 
         GoogleBooksApi api = component.getRetrofit().create(GoogleBooksApi.class);
-
-        getViewState().showProgress();
         //  api = RetrofitSingleton.getInstance().init().create(GoogleBooksApi.class);
-        api.getBooksListPagination(query, API_KEY, 40,index).enqueue(new Callback<BooksResponse>() {
+        api.getBooksListPagination(query, API_KEY, 40, index).enqueue(new Callback<BooksResponse>() {
             @Override
             public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
                 BooksResponse booksResponse = response.body();
@@ -72,7 +71,6 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
                     //ничего не делать
                 } else {
                     getViewState().loadPageBooks(booksResponse.getBooks());
-                    getViewState().hideProgress();
                 }
             }
 

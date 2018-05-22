@@ -14,13 +14,13 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 import java.util.List;
 
-public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
+public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.ViewHolder> {
     private List<BookResponse> booksList;
     private Context context;
     private CustomItemClickListener listener;
 
 
-    public RecycleAdapter(Context context, List<BookResponse> booksList, CustomItemClickListener listener) {
+    public BooksListAdapter(Context context, List<BookResponse> booksList, CustomItemClickListener listener) {
         this.context = context;
         this.booksList = booksList;
         this.listener = listener;
@@ -31,18 +31,18 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public void addData(List<BookResponse> booksList){
+    public void addData(List<BookResponse> booksList) {
         this.booksList.addAll(booksList);
         notifyDataSetChanged();
     }
 
-    public void clearData(){
+    public void clearData() {
         booksList.clear();
         notifyDataSetChanged();
     }
 
     @Override
-    public RecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BooksListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
         final ViewHolder mViewHolder = new ViewHolder(mView);
         mView.setOnClickListener(new View.OnClickListener() {
@@ -57,14 +57,18 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(booksList.get(position).getVolumeInfo().getTitle());
-        holder.author.setText(Arrays.toString(booksList.get(position).getVolumeInfo().getAuthors()));
+        if(booksList.get(position).getVolumeInfo().getAuthors()==null){
+            holder.author.setText("Автор неизвестен");
+        }else{
+            holder.author.setText(Arrays.toString(booksList.get(position).getVolumeInfo().getAuthors()));
+        }
 
         if (booksList.get(position).getVolumeInfo().getImageLinks() != null) {
-        Picasso.get()
-                .load(booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail())
-                .resize(80, 80)
-                .centerCrop()
-                .into(holder.picture);
+            Picasso.get()
+                    .load(booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail())
+                    .resize(80, 80)
+                    .centerCrop()
+                    .into(holder.picture);
 
         } else {
             holder.picture.setImageResource(R.drawable.common_google_signin_btn_text_dark);
@@ -73,13 +77,12 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return booksList.size();
+        if (booksList == null) {
+            return 0;
+        } else {
+            return booksList.size();
+        }
     }
-
-    public Object getItem(int position) {
-        return booksList.get(position);
-    }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;

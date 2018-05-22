@@ -16,9 +16,9 @@ public class BookDetailActivity extends MvpAppCompatActivity implements BookDeta
     private TextView titleText;
     private TextView descText;
     private TextView authorText;
+    private ImageView placePicture;
     private CollapsingToolbarLayout collapsingToolbar;
-    private ImageView placePicutre;
-    private BookResponse currentBook;
+
 
     @InjectPresenter
     BookDetailPresenter bookDetailPresenter;
@@ -28,34 +28,24 @@ public class BookDetailActivity extends MvpAppCompatActivity implements BookDeta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_detail_activity);
 
-        initComponents();
-        getData();
+        initWidgets();
+        initData();
     }
 
-    private void initComponents() {
+    private void initWidgets() {
         titleText = findViewById(R.id.book_detail_title_tv);
         descText = findViewById(R.id.book_detail_desc_tv);
-        authorText  = findViewById(R.id.book_author_detail_tv);
-        placePicutre = findViewById(R.id.image);
+        authorText = findViewById(R.id.book_author_detail_tv);
+        placePicture = findViewById(R.id.image);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbar = findViewById(R.id.collapsing_toolbar);
     }
 
-    private void getData() {
-        currentBook = (BookResponse) getIntent().getSerializableExtra(SearchActivity.EXTRA_BOOK_KEY);
+    private void initData() {
+        BookResponse currentBook = (BookResponse) getIntent().getSerializableExtra(SearchActivity.EXTRA_BOOK_KEY);
         bookDetailPresenter.loadData(currentBook);
-    }
-
-    @Override
-    public void showProgress() {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
     }
 
     @Override
@@ -69,16 +59,12 @@ public class BookDetailActivity extends MvpAppCompatActivity implements BookDeta
             Picasso.get()
                     .load(URL)
                     .resize(2000, 2000)
-                    .into(placePicutre);
+                    .into(placePicture);
         } else {
-            placePicutre.setImageResource(R.drawable.common_google_signin_btn_text_dark);
+            placePicture.setImageResource(R.drawable.common_google_signin_btn_text_dark);
 
         }
 
     }
 
-    @Override
-    public void showError() {
-
-    }
 }

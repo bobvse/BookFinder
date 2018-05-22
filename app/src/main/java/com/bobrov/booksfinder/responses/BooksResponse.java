@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class BooksResponse implements Serializable {
+    @SerializedName("kind")
     private String kind;
     @SerializedName("totalItems")
     private String totalItems;
