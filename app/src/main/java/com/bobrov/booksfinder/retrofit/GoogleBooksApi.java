@@ -13,6 +13,10 @@ public interface GoogleBooksApi {
     @GET("books/v1/volumes")
     Call<BooksResponse> getBooksList(@Query("q") String search, @Query("key") String apiKey, @Query("maxResults") int count);
 
+    @GET("books/v1/volumes")
+    Call<BooksResponse> getBooksListPagination(@Query("q") String search, @Query("key") String apiKey,
+                                               @Query("maxResults") int count,@Query("startIndex") int index);
+
     @GET("books/v1/volumes/{id}")
     Call<BookResponse> getBook(@Path("id") String bookId);
 

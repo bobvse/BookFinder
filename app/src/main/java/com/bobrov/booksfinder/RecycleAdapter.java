@@ -31,6 +31,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void addData(List<BookResponse> booksList){
+        this.booksList.addAll(booksList);
+        notifyDataSetChanged();
+    }
+
     public void clearData(){
         booksList.clear();
         notifyDataSetChanged();
@@ -43,7 +48,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(v, mViewHolder.getLayoutPosition());
+                listener.onItemClick(booksList.get(mViewHolder.getLayoutPosition()));
             }
         });
         return mViewHolder;
@@ -54,7 +59,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         holder.title.setText(booksList.get(position).getVolumeInfo().getTitle());
         holder.author.setText(Arrays.toString(booksList.get(position).getVolumeInfo().getAuthors()));
 
-        if (booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail() != null) {
+        if (booksList.get(position).getVolumeInfo().getImageLinks() != null) {
         Picasso.get()
                 .load(booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail())
                 .resize(80, 80)

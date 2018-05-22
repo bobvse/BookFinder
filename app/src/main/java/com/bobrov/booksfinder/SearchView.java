@@ -15,4 +15,6 @@ public interface SearchView extends MvpView {
     void showError(String error);
 
     void clearData();
+
+    void loadPageBooks(List<BookResponse> bookResponses);
 }
