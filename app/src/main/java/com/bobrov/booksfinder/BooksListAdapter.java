@@ -16,12 +16,10 @@ import java.util.List;
 
 public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.ViewHolder> {
     private List<BookResponse> booksList;
-    private Context context;
     private CustomItemClickListener listener;
 
 
-    public BooksListAdapter(Context context, List<BookResponse> booksList, CustomItemClickListener listener) {
-        this.context = context;
+    public BooksListAdapter(List<BookResponse> booksList, CustomItemClickListener listener) {
         this.booksList = booksList;
         this.listener = listener;
     }
@@ -66,8 +64,9 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.View
         if (booksList.get(position).getVolumeInfo().getImageLinks() != null) {
             Picasso.get()
                     .load(booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail())
-                    .resize(80, 80)
+                    //.resize(80, 80)
                     .centerCrop()
+                    .fit()
                     .into(holder.picture);
 
         } else {

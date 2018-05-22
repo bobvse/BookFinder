@@ -24,7 +24,6 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
 
     private RecyclerView recyclerView;
     private BooksListAdapter booksListAdapter;
-    private LayoutManager mLayoutManager;
 
     @InjectPresenter
     SearchPresenter searchPresenter;
@@ -35,12 +34,11 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
         setContentView(R.layout.search_activity);
 
         progress = findViewById(R.id.books_list_relative_progress);
-        progress.setVisibility(RelativeLayout.GONE);
 
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
@@ -66,8 +64,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
                 if (query.length() < 3) {
                     return false;
                 } else {
-                    query.trim();
-                    searchPresenter.loadBooks(query);
+                    searchPresenter.loadBooks(query.trim());
                     return false;
                 }
             }
@@ -95,7 +92,7 @@ public class SearchActivity extends MvpAppCompatActivity implements SearchView, 
 
     @Override
     public void showBooks(List<BookResponse> bookResponses) {
-        booksListAdapter = new BooksListAdapter(this, bookResponses, this);
+        booksListAdapter = new BooksListAdapter(bookResponses, this);
         recyclerView.setAdapter(booksListAdapter);
 
     }

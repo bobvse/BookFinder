@@ -6,8 +6,6 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Modifier;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
