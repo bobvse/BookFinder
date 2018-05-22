@@ -1,5 +1,6 @@
 package com.bobrov.booksfinder.responses;
 
+import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -29,6 +30,22 @@ public class BookResponse implements Serializable {
 
     public VolumeInfo getVolumeInfo() {
         return volumeInfo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookResponse that = (BookResponse) o;
+        return Objects.equal(kind, that.kind) &&
+                Objects.equal(id, that.id) &&
+                Objects.equal(etag, that.etag) &&
+                Objects.equal(volumeInfo, that.volumeInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(kind, id, etag, volumeInfo);
     }
 
     public static class VolumeInfo implements Serializable {
@@ -63,6 +80,23 @@ public class BookResponse implements Serializable {
             return imageLinks;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            VolumeInfo that = (VolumeInfo) o;
+            return Objects.equal(title, that.title) &&
+                    Objects.equal(authors, that.authors) &&
+                    Objects.equal(publisher, that.publisher) &&
+                    Objects.equal(description, that.description) &&
+                    Objects.equal(imageLinks, that.imageLinks);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(title, authors, publisher, description, imageLinks);
+        }
+
         public static class ImageLinks implements Serializable {
             private String smallThumbnail;
             private String thumbnail;
@@ -93,6 +127,24 @@ public class BookResponse implements Serializable {
 
             public String getExtraLarge() {
                 return extraLarge;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                ImageLinks that = (ImageLinks) o;
+                return Objects.equal(smallThumbnail, that.smallThumbnail) &&
+                        Objects.equal(thumbnail, that.thumbnail) &&
+                        Objects.equal(small, that.small) &&
+                        Objects.equal(medium, that.medium) &&
+                        Objects.equal(large, that.large) &&
+                        Objects.equal(extraLarge, that.extraLarge);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hashCode(smallThumbnail, thumbnail, small, medium, large, extraLarge);
             }
         }
 

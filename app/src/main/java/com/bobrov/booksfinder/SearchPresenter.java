@@ -24,14 +24,9 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
 
     public void loadBooks(String searchBook) {
         query = searchBook;
-        RestComponent component = DaggerRestComponent.builder()
-                .restModule(new RestModule())
-                .build();
 
-        GoogleBooksApi api = component.getRetrofit().create(GoogleBooksApi.class);
-
+        GoogleBooksApi api =  BookFinderApp.getComponent().getRetrofit().create(GoogleBooksApi.class);
         getViewState().showProgress();
-        //  api = RetrofitSingleton.getInstance().init().create(GoogleBooksApi.class);
         api.getBooksList(searchBook, API_KEY, 40).enqueue(new Callback<BooksResponse>() {
             @Override
             public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
@@ -57,12 +52,7 @@ public class SearchPresenter extends MvpPresenter<SearchView> {
 
     public void loadBooksPagination(int index) {
 
-        RestComponent component = DaggerRestComponent.builder()
-                .restModule(new RestModule())
-                .build();
-
-        GoogleBooksApi api = component.getRetrofit().create(GoogleBooksApi.class);
-        //  api = RetrofitSingleton.getInstance().init().create(GoogleBooksApi.class);
+        GoogleBooksApi api =  BookFinderApp.getComponent().getRetrofit().create(GoogleBooksApi.class);
         api.getBooksListPagination(query, API_KEY, 40, index).enqueue(new Callback<BooksResponse>() {
             @Override
             public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {

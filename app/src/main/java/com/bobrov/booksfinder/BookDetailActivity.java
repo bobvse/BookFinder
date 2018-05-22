@@ -39,8 +39,9 @@ public class BookDetailActivity extends MvpAppCompatActivity implements BookDeta
         placePicture = findViewById(R.id.image);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         collapsingToolbar = findViewById(R.id.collapsing_toolbar);
+
     }
 
     private void initData() {
@@ -58,7 +59,8 @@ public class BookDetailActivity extends MvpAppCompatActivity implements BookDeta
         if (URL != null) {
             Picasso.get()
                     .load(URL)
-                    .resize(2000, 2000)
+                    .fit()
+                    .centerInside()
                     .into(placePicture);
         } else {
             placePicture.setImageResource(R.drawable.common_google_signin_btn_text_dark);

@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Modifier;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -15,11 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class RestModule {
+    private static final String BASE_URL = "https://www.googleapis.com/";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Provides
     Retrofit provideRetrofit(Gson gson, OkHttpClient httpClient) {
         return new Retrofit.Builder()
-                .baseUrl("https://www.googleapis.com/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient)
                 .build();
@@ -30,7 +34,7 @@ public class RestModule {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
-                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .setDateFormat(DATE_FORMAT)
                 .setPrettyPrinting()
                 .create();
     }

@@ -1,5 +1,6 @@
 package com.bobrov.booksfinder.responses;
 
+import com.google.common.base.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -23,6 +24,21 @@ public class BooksResponse implements Serializable {
 
     public List<BookResponse> getBooks() {
         return books;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BooksResponse that = (BooksResponse) o;
+        return Objects.equal(kind, that.kind) &&
+                Objects.equal(totalItems, that.totalItems) &&
+                Objects.equal(books, that.books);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(kind, totalItems, books);
     }
 }
 
